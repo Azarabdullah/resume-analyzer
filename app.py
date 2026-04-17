@@ -40,28 +40,28 @@ def analyze_resume(resume_text, job_description):
     
     Be specific and helpful.
     """
-    
-   models = [
-    "google/gemma-3-4b-it:free",
-    "meta-llama/llama-3.2-3b-instruct:free",
-    "mistralai/mistral-7b-instruct:free",
-    "qwen/qwen-2.5-7b-instruct:free"
-]
 
-response = None
-for model in models:
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        break
-    except Exception:
-        continue
+    models = [
+        "google/gemma-3-4b-it:free",
+        "meta-llama/llama-3.2-3b-instruct:free",
+        "mistralai/mistral-7b-instruct:free",
+        "qwen/qwen-2.5-7b-instruct:free"
+    ]
 
-if response is None:
-    return "All models are currently rate limited. Please try again in a few minutes!"
-    
+    response = None
+    for model in models:
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            break
+        except Exception:
+            continue
+
+    if response is None:
+        return "All models are currently rate limited. Please try again in a few minutes!"
+
     return response.choices[0].message.content
 
 # UI
@@ -70,7 +70,8 @@ st.title("🤖 AI Resume Analyzer")
 st.write("Upload your resume and paste a job description to get instant AI feedback!")
 # ADD HERE 👇
 password = st.text_input("Enter Password to Use App", type="password")
-if password != "Azardev7890":
+correct_password = os.getenv("APP_PASSWORD") or st.secrets.get("APP_PASSWORD")
+if password != correct_password:
     st.warning("Please enter the correct password to continue!")
     st.stop()
 uploaded_file = st.file_uploader("Upload Your Resume (PDF)", type="pdf")
