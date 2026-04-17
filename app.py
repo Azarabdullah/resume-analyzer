@@ -41,10 +41,26 @@ def analyze_resume(resume_text, job_description):
     Be specific and helpful.
     """
     
-    response = client.chat.completions.create(
-        model="google/gemma-3-4b-it:free",
-        messages=[{"role": "user", "content": prompt}]
-    )
+   models = [
+    "google/gemma-3-4b-it:free",
+    "meta-llama/llama-3.2-3b-instruct:free",
+    "mistralai/mistral-7b-instruct:free",
+    "qwen/qwen-2.5-7b-instruct:free"
+]
+
+response = None
+for model in models:
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        break
+    except Exception:
+        continue
+
+if response is None:
+    return "All models are currently rate limited. Please try again in a few minutes!"
     
     return response.choices[0].message.content
 
