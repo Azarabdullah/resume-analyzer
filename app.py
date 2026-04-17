@@ -6,9 +6,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Works both locally and on Streamlit Cloud
+api_key = os.getenv("OPENROUTER_API_KEY") or st.secrets.get("OPENROUTER_API_KEY")
+
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    api_key=api_key
 )
 
 def extract_text_from_pdf(pdf_file):
