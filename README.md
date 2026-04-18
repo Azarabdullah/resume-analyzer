@@ -9,6 +9,8 @@ Identify strong & missing skills
 Get improvement suggestions
 Password-protected access
 
+----Live Link----|   https://resume-analyzer-ugaskgdxdacfmpy6nymty8.streamlit.app/    -----------------------
+
 ------------------------------------------------------------------------------------------------------------------------------
 🛠️ Tech Stack
 
