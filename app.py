@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Works both locally and on Streamlit Cloud
+# Works both locally and on Streamlit cloud
 api_key = os.getenv("OPENROUTER_API_KEY") or st.secrets.get("OPENROUTER_API_KEY")
 
 client = OpenAI(
@@ -68,7 +68,7 @@ def analyze_resume(resume_text, job_description):
 st.set_page_config(page_title="AI Resume Analyzer", page_icon="🤖")
 st.title("🤖 AI Resume Analyzer")
 st.write("Upload your resume and paste a job description to get instant AI feedback!")
-st.info("🔑 Demo password: Azardev7890")
+st.info("🔑 Demo password: demo123")
 password = st.text_input("Enter Password to Use App", type="password")
 correct_password = os.getenv("APP_PASSWORD") or st.secrets.get("APP_PASSWORD")
 if password != correct_password:
