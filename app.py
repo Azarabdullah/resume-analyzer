@@ -3,12 +3,9 @@ import PyPDF2
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-
 load_dotenv()
 
-# Works both locally and on Streamlit cloud
 api_key = os.getenv("OPENROUTER_API_KEY") or st.secrets.get("OPENROUTER_API_KEY")
-
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=api_key
@@ -40,36 +37,31 @@ def analyze_resume(resume_text, job_description):
     
     Be specific and helpful.
     """
-    models = [
-    "meta-llama/llama-3.2-3b-instruct:free",
-    "meta-llama/llama-3.2-1b-instruct:free",
-    "tinyllama/tinyllama-1.1b-chat:free",
-    "gryphe/mythomist-7b:free",
-]
     response = None
-    for model in models:
-        try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            break
-        except Exception as e:
-            st.write(f"❌ {model} failed: {e}")
-            continue
+    try:
+        response = client.chat.completions.create(
+            model="openrouter/auto",
+            messages=[{"role": "user", "content": prompt}]
+        )
+    except Exception as e:
+        st.write(f"❌ Failed: {e}")
+
     if response is None:
         return "All models are currently rate limited. Please try again in a few minutes!"
     return response.choices[0].message.content
+
 # UI
 st.set_page_config(page_title="AI Resume Analyzer", page_icon="🤖")
 st.title("🤖 AI Resume Analyzer")
 st.write("Upload your resume and paste a job description to get instant AI feedback!")
-st.info("🔑 Demo password:Azardev7890")
+st.info("🔑 Demo password: Azardev7890")
+
 password = st.text_input("Enter Password to Use App", type="password")
 correct_password = os.getenv("APP_PASSWORD") or st.secrets.get("APP_PASSWORD")
 if password != correct_password:
     st.warning("Please enter the correct password to continue!")
     st.stop()
+
 uploaded_file = st.file_uploader("Upload Your Resume (PDF)", type="pdf")
 job_description = st.text_area("Paste Job Description Here", height=200)
 
