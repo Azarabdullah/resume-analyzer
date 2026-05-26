@@ -40,31 +40,26 @@ def analyze_resume(resume_text, job_description):
     
     Be specific and helpful.
     """
-
     models = [
-    "deepseek/deepseek-r1-0528:free",
-    "google/gemma-3-27b-it:free",
-    "qwen/qwen3-235b-a22b:free",
-    "microsoft/phi-4-reasoning:free",
-]
-
+        "deepseek/deepseek-r1-0528:free",
+        "google/gemma-3-27b-it:free",
+        "qwen/qwen3-235b-a22b:free",
+        "microsoft/phi-4-reasoning:free",
+    ]
     response = None
     for model in models:
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        break
-    except Exception as e:
-        st.write(f"❌ {model} failed: {e}")  # ADD THIS LINE
-        continue
-
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            break
+        except Exception as e:
+            st.write(f"❌ {model} failed: {e}")
+            continue
     if response is None:
         return "All models are currently rate limited. Please try again in a few minutes!"
-
     return response.choices[0].message.content
-
 # UI
 st.set_page_config(page_title="AI Resume Analyzer", page_icon="🤖")
 st.title("🤖 AI Resume Analyzer")
