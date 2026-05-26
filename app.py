@@ -41,11 +41,11 @@ def analyze_resume(resume_text, job_description):
     Be specific and helpful.
     """
     models = [
-        "deepseek/deepseek-r1-0528:free",
-        "google/gemma-3-27b-it:free",
-        "qwen/qwen3-235b-a22b:free",
-        "microsoft/phi-4-reasoning:free",
-    ]
+    "meta-llama/llama-3.1-8b-instruct:free",
+    "meta-llama/llama-3.2-3b-instruct:free",
+    "mistralai/mistral-7b-instruct:free",
+    "google/gemma-2-9b-it:free",
+]
     response = None
     for model in models:
         try:
