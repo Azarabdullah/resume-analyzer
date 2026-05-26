@@ -41,10 +41,10 @@ def analyze_resume(resume_text, job_description):
     Be specific and helpful.
     """
     models = [
-    "meta-llama/llama-3.1-8b-instruct:free",
     "meta-llama/llama-3.2-3b-instruct:free",
-    "mistralai/mistral-7b-instruct:free",
-    "google/gemma-2-9b-it:free",
+    "meta-llama/llama-3.2-1b-instruct:free",
+    "tinyllama/tinyllama-1.1b-chat:free",
+    "gryphe/mythomist-7b:free",
 ]
     response = None
     for model in models:
