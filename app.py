@@ -50,14 +50,15 @@ def analyze_resume(resume_text, job_description):
 
     response = None
     for model in models:
-        try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            break
-        except Exception:
-            continue
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        break
+    except Exception as e:
+        st.write(f"❌ {model} failed: {e}")  # ADD THIS LINE
+        continue
 
     if response is None:
         return "All models are currently rate limited. Please try again in a few minutes!"
